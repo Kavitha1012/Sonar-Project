@@ -6,7 +6,7 @@ pipeline{
     stages{
        stage('Checkout'){
             steps{
-                git 'git@github.com:NagiReddyDEVOPS/Sonar-Project.git'
+                git 'git@github.com:Kavitha1012/Sonar-Project.git'
             }
          }        
        stage('Package'){
@@ -20,7 +20,7 @@ pipeline{
         withSonarQubeEnv('SonarQube') { 
         // If you have configured more than one global server connection, you can specify its name
 //      sh "${scannerHome}/bin/sonar-scanner"
-        sh "mvn clean verify sonar:sonar -Dsonar.projectKey=sonar-project -Dsonar.host.url=http://65.0.80.243:9000 -Dsonar.login=sqp_f6e4e2ee42d66322c69ce90082b181c7d54406da"
+        sh "mvn clean verify sonar:sonar -Dsonar.projectKey=sonar-project -Dsonar.host.url=http://52.66.248.50:9000 -Dsonar.login=sqp_c8464335805beb8ab4bef5a3c56915a9cc97f628"
     }
         }
         }
@@ -30,11 +30,11 @@ pipeline{
       nexusArtifactUploader(
       nexusVersion: 'nexus3',
       protocol: 'http',
-      nexusUrl: '13.126.31.192:8081',
+      nexusUrl: '13.233.25.187:8081/',
       groupId: 'myGroupId',
       version: '1.0-SNAPSHOT',
       repository: 'maven-snapshots',
-      credentialsId: 'nexuscredentails',
+      credentialsId: 'nexuscredentials',
       artifacts: [
       [artifactId: 'maven-project',
       classifier: '',
@@ -45,7 +45,7 @@ pipeline{
         }
         stage ('Deploy to Prod'){
      steps {
-        sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war root@13.201.186.114:/opt/apache-tomcat-8.0.52/webapps'
+        sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war root@13.233.33.45:/opt/apache-tomcat-8.5.99/webapps'
            }
    }
 }    
