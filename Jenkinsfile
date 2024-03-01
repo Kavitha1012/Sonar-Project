@@ -58,7 +58,8 @@ pipeline{
         sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war root@13.233.33.45:/opt/apache-tomcat-8.5.99/webapps'
            }
    }
-  post {
+   }
+   post {
         success {
             emailext (
                 subject: "Pipeline Success: ${env.JOB_NAME}",
@@ -83,6 +84,5 @@ pipeline{
                 compressLog: true
             )
         }
-    }
-}    
+    }   
 }
