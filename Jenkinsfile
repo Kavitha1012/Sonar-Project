@@ -19,10 +19,11 @@ pipeline{
                 sh 'mvn test'
             }
             post {
-                always {
-                  junit 'target/surefire-reports/*.xml'
-                }
-            }
+                success {
+                    junit 'target/surefire-reports/**/*.xml' 
+        
+		        }
+		  }
         }
         stage('SonarQube analysis') {
 //    def scannerHome = tool 'SonarScanner 4.0';
