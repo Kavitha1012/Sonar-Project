@@ -14,6 +14,12 @@ pipeline{
                 sh 'mvn clean package'
             }
          }
+	     post {
+                success {
+                    junit 'target/surefire-reports/**/*.xml' 
+        
+		        }
+		  }
         stage('SonarQube analysis') {
 //    def scannerHome = tool 'SonarScanner 4.0';
         steps{
@@ -48,5 +54,14 @@ pipeline{
         sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war root@13.233.33.45:/opt/apache-tomcat-8.5.99/webapps'
            }
    }
+   post {
+        success {
+            mail to:"rishikumar11210@gmail.com", subject:"SUCCESS: ${currentBuild.fullDisplayName}", body: "Job passed."
+        }
+        failure {
+            mail to:"rishikumar11210@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Job failed."
+        }
+    }   
+   
 }    
 }
