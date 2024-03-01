@@ -14,13 +14,13 @@ pipeline{
                 sh 'mvn clean package'
             }
          }
-            post {
+        }
+		 post {
                 success {
                     junit 'target/surefire-reports/**/*.xml' 
         
 		        }
 		  }
-        }
         stage('SonarQube analysis') {
 //    def scannerHome = tool 'SonarScanner 4.0';
         steps{
@@ -54,7 +54,6 @@ pipeline{
      steps {
         sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war root@13.233.33.45:/opt/apache-tomcat-8.5.99/webapps'
            }
-   }
    }
    post {
         success {
