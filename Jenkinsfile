@@ -14,13 +14,18 @@ pipeline{
                 sh 'mvn clean package'
             }
          }
-        }
-		 post {
+	     stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+		}
+            post {
                 success {
                     junit 'target/surefire-reports/**/*.xml' 
         
 		        }
 		  }
+        
         stage('SonarQube analysis') {
 //    def scannerHome = tool 'SonarScanner 4.0';
         steps{
@@ -55,7 +60,7 @@ pipeline{
         sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war root@13.233.33.45:/opt/apache-tomcat-8.5.99/webapps'
            }
    }
-   post {
+  post {
         success {
             emailext (
                 subject: "Pipeline Success: ${env.JOB_NAME}",
@@ -80,5 +85,9 @@ pipeline{
                 compressLog: true
             )
         }
-    }   
+    }
+}    
 }
+
+
+
